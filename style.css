@@ -1,0 +1,68 @@
+/* ===== 3D TILT ENHANCEMENTS ===== */
+
+.shop-card {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Depth layers */
+.shop-card > * {
+  transform: translateZ(35px);
+}
+
+/* Extra depth for title */
+.shop-title {
+  transform: translateZ(60px);
+}
+
+/* Glare overlay */
+.shop-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    rgba(255,255,255,0.18),
+    transparent 55%
+  );
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+/* Glow edge */
+.shop-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255,234,0,0.25),
+    rgba(255,106,0,0.15),
+    transparent 60%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.shop-card:hover::before,
+.shop-card:hover::after {
+  opacity: 1;
+}
+
+/* Disable tilt on touch devices */
+@media (hover: none) {
+  .shop-card,
+  .shop-card * {
+    transform: none !important;
+  }
+
+  .shop-card::before,
+  .shop-card::after {
+    display: none;
+  }
+}
